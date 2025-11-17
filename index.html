@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate Connect Hub ⚡</title>
+    <meta name="theme-color" content="#4f46e5">
+
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="manifest" href="manifest.json">
+
+    <style>
+    /* ---------------------- */
+    /* GLOBAL STYLE (بهبودیافته) */
+    /* ---------------------- */
+    :root {
+        --bg: #f5f6fa;
+        --card: #ffffff;
+        --text: #222;
+        --primary: #4f46e5;
+        --primary-light: #6d64ec;
+        --border: #e3e4ee;
+        --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    }
+    
+    body.dark {
+        --bg: #18181b;
+        --card: #262626;
+        --text: #f2f2f2;
+        --primary-light: #9a94ec;
+        --border: #3d3d3d;
+        --shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    }
+    
+    /* حالت سبک (Lite Mode) */
+    body.lite {
+        transition: none;
+        --shadow: none;
+    }
+    body.lite .card { box-shadow: none; transform: none !important; }
+    body.lite .btn, body.lite .grid button { transition: none !important; transform: none !important; }
+
+    body {
+        font-family: 'Vazirmatn', sans-serif;
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        transition: background 0.4s, color 0.4s;
+        line-height: 1.6;
+    }
+
+    /* ---------------------- */
+    /* LAYOUT          */
+    /* ---------------------- */
+    .container {
+        max-width: 520px;
+        margin: auto;
+        padding: 20px 10px;
+    }
+    h1 {
+        text-align: center;
+        font-size: 28px;
+        margin: 10px 0 25px;
+        color: var(--primary);
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    }
+    h3 {
+        margin-top: 0;
+        font-size: 19px;
+        border-bottom: 2px solid var(--primary);
+        padding-bottom: 8px;
+        margin-bottom: 15px;
+        color: var(--text);
+    }
+
+    .card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        padding: 20px;
+        border-radius: 20px;
+        margin-bottom: 25px;
+        box-shadow: var(--shadow);
+        transition: box-shadow 0.3s, background 0.3s, transform 0.2s;
+    }
+    .card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+    }
+    body.dark .card:hover {
+         box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6);
+    }
+
+    /* ---------------------- */
+    /* BUTTONS         */
+    /* ---------------------- */
+    .btn {
+        width: 100%;
+        background: var(--primary);
+        color: white;
+        padding: 14px;
+        border: none;
+        border-radius: 14px;
+        cursor: pointer;
+        margin: 8px 0;
+        font-size: 16px;
+        font-weight: 700;
+        transition: background 0.3s, transform 0.1s, box-shadow 0.3s;
+        box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4);
+        display: flex; /* برای آیکون‌ها */
+        align-items: center;
+        justify-content: center;
+    }
+    .btn:hover:not(:disabled) {
+        background: var(--primary-light);
+        transform: translateY(-1px);
+    }
+    .btn:active {
+        transform: translateY(1px);
+        box-shadow: none;
+    }
+    .btn-outline {
+        background: transparent;
+        border: 1px solid var(--border);
+        color: var(--text);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    }
+    .btn-outline:hover:not(:disabled) {
+        background: var(--bg);
+    }
+    .btn-sm {
+        padding: 10px 15px;
+        font-size: 14px;
+        width: auto; 
+        box-shadow: none;
+    }
+
+    /* ---------------------- */
+    /* LINK GRID (بهبودیافته و ریسپانسیو) */
+    /* ---------------------- */
+    .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* دسکتاپ: دو ستونی */
+        gap: 15px;
+    }
+    .grid button {
+        padding: 18px;
+        border-radius: 14px;
+        border: 1px solid var(--border);
+        background: var(--card);
+        color: var(--text);
+        cursor: pointer;
+        transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        
+        /* استایل آیکون */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .grid button i {
+        margin-left: 10px; /* فاصله آیکون از متن */
+        font-size: 20px;
+    }
+    .grid button:hover {
+        background: var(--bg);
+        transform: scale(1.03);
+    }
+    
+    /* تنظیم برای موبایل (صفحه‌های کوچک) */
+    @media (max-width: 480px) {
+        .container {
+            padding: 10px;
+        }
+        h1 {
+            font-size: 24px;
+        }
+        .grid {
+            grid-template-columns: 1fr; /* موبایل: تک ستونی */
+        }
+        .card {
+            padding: 15px;
+            border-radius: 16px;
+        }
+    }
+
+    /* ---------------------- */
+    /* RESULT BOX         */
+    /* ---------------------- */
+    .result {
+        background: rgba(79,70,229,0.1);
+        color: var(--primary);
+        padding: 15px;
+        border-radius: 14px;
+        display: none;
+        margin-top: 18px;
+        font-size: 15px;
+        font-weight: 700;
+        border: 1px dashed var(--primary);
+        white-space: pre-line;
+    }
+    
+    /* ---------------------- */
+    /* INPUTS (جدید) */
+    /* ---------------------- */
+    input {
+        padding: 10px;
+        border-radius: 10px;
+        border: 1px solid var(--border);
+        background: var(--bg);
+        color: var(--text);
+        transition: border-color 0.3s;
+    }
+    input:focus {
+        border-color: var(--primary);
+        outline: none;
+    }
+    </style>
+</head>
+
+<body>
+<div class="container">
+
+    <h1>Ultimate Connect Hub ⚡</h1>
+
+    <div class="card">
+        <div class="settings-row">
+            <span>تم شب/روز (Dark/Light Mode)</span>
+            <button class="btn-sm btn-outline" onclick="toggleDarkMode()">تغییر</button>
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>تست اتصال سریع</h3>
+        <button class="btn" id="btn-ping" onclick="pingGoogle()">پینگ گوگل</button>
+        <button class="btn btn-outline" onclick="checkDNS()">بررسی DNS</button>
+        <button class="btn btn-outline" onclick="checkHTTPS()">بررسی HTTPS</button>
+        <button class="btn" onclick="multiCheck()">تست چند سرور</button>
+
+        <div id="result" class="result"></div>
+    </div>
+
+    <div class="card">
+        <h3>نمودار پینگ زنده (شبیه‌سازی)</h3>
+        <div id="pingGraphContainer">
+            <canvas id="pingChart"></canvas>
+        </div>
+        <button class="btn-sm btn-outline" id="startGraphBtn" onclick="startPingGraph()">شروع نمودار</button>
+    </div>
+
+    <div class="card">
+        <h3>تست سرعت سبک</h3>
+        <button class="btn" onclick="lightSpeedTest()">شروع تست</button>
+        <div id="speedResult" class="result"></div>
+    </div>
+
+    <div class="card">
+        <h3>میانبرهای عمومی</h3>
+        <div class="grid">
+            <button onclick="openLink('https://web.whatsapp.com')"><i class="fab fa-whatsapp" style="color:#25D366;"></i>واتساپ</button>
+            <button onclick="openLink('https://web.telegram.org')"><i class="fab fa-telegram-plane" style="color:#0088CC;"></i>تلگرام</button>
+            <button onclick="openLink('https://instagram.com')"><i class="fab fa-instagram" style="color:#E1306C;"></i>اینستاگرام</button>
+            <button onclick="openLink('https://speedtest.net')"><i class="fas fa-tachometer-alt" style="color:var(--primary);"></i>اسپیدتست</button>
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>میانبرهای من</h3>
+        <div style="display: flex; gap: 8px; margin-bottom: 10px;">
+            <input id="customName" placeholder="نام" style="flex: 1;">
+            <input id="customURL" placeholder="لینک (با https://)" style="flex: 1;" value="https://">
+        </div>
+        <button class="btn-sm btn" onclick="addShortcut()">افزودن میانبر</button>
+
+        <div id="myLinks" style="margin-top: 15px;"></div>
+    </div>
+
+    <div class="card">
+        <div class="settings-row">
+            <span>فعال‌سازی حالت سبک (Lite)</span>
+            <button class="btn-sm btn-outline" id="liteToggle" onclick="toggleLite()">فعال/غیرفعال</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+let pingChartInstance = null;
+let pingInterval = null;
+let maxDataPoints = 30;
+let pingDelay = 1500;
+
+/* ----------------------------------- */
+/* DARK MODE                  */
+/* ----------------------------------- */
+function toggleDarkMode(){
+    document.body.classList.toggle("dark");
+    localStorage.setItem("dark", document.body.classList.contains("dark"));
+    if (pingChartInstance) {
+        updateChartColors();
+    }
+}
+if(localStorage.getItem("dark") === "true"){
+    document.body.classList.add("dark");
+}
+
+function updateChartColors() {
+    const isDark = document.body.classList.contains('dark');
+    const color = isDark ? '#818cf8' : '#4f46e5';
+    const gridColor = isDark ? '#3d3d3d' : '#e3e4ee';
+
+    if (pingChartInstance) {
+        pingChartInstance.data.datasets[0].borderColor = color;
+        pingChartInstance.options.scales.y.grid.color = gridColor;
+        pingChartInstance.options.scales.x.grid.color = gridColor;
+        pingChartInstance.options.scales.y.ticks.color = isDark ? '#f2f2f2' : '#222';
+        pingChartInstance.options.scales.x.ticks.color = isDark ? '#f2f2f2' : '#222';
+        pingChartInstance.update();
+    }
+}
+
+/* ----------------------------------- */
+/* QUICK TOOLS               */
+/* ----------------------------------- */
+function showResult(msg, elementId = "result"){
+    const r = document.getElementById(elementId);
+    r.style.display = "block";
+    r.innerHTML = msg;
+}
+
+function openLink(url){
+    window.open(url, "_blank");
+}
+
+async function simulatePing(url){
+    const t = performance.now();
+    try{
+        const response = await fetch(url, {
+            mode: "no-cors",
+            cache: "no-store",
+            signal: AbortSignal.timeout(5000)
+        });
+        const duration = Math.round(performance.now() - t);
+        return duration;
+    }catch(e){
+        return null;
+    }
+}
+
+async function pingGoogle(){
+    document.getElementById("btn-ping").disabled = true;
+    showResult("در حال تست پینگ...", "result");
+
+    const duration = await simulatePing("https://www.google.com/favicon.ico");
+
+    document.getElementById("btn-ping").disabled = false;
+
+    if(duration !== null){
+        showResult("پینگ (Latency): <b>" + duration + "ms</b>", "result");
+    }else{
+        showResult("ارتباط با گوگل برقرار نشد (Timeout یا خطا) ✖", "result");
+    }
+}
+
+async function checkDNS(){
+    try{
+        const r = await fetch("https://1.1.1.1", {mode:"no-cors", signal: AbortSignal.timeout(3000)});
+        showResult("DNS سالم است ✔ (IP 1.1.1.1 پاسخ داد)");
+    }catch{
+        showResult("DNS پاسخ نمی‌دهد یا Timeout رخ داد ✖", "result");
+    }
+}
+
+async function checkHTTPS(){
+    try{
+        const r = await fetch("https://example.com", {signal: AbortSignal.timeout(3000)});
+        if (r.ok) {
+             showResult("HTTPS سالم ✔ (گواهی معتبر)");
+        } else {
+             showResult("HTTPS مشکل دارد ✖ (پاسخ غیرمنتظره)");
+        }
+    }catch{
+        showResult("HTTPS در دسترس نیست یا گواهی مشکل دارد ✖", "result");
+    }
+}
+
+async function multiCheck(){
+    const servers = {
+        "Google": "https://www.google.com/favicon.ico",
+        "Cloudflare": "https://1.1.1.1",
+        "Telegram Web": "https://web.telegram.org/favicon.ico",
+        "Example Site": "https://example.com"
+    };
+    let text = "نتایج:<br>";
+
+    for (const [s, url] of Object.entries(servers)){
+        try{
+            await fetch(url, {mode:"no-cors", signal: AbortSignal.timeout(4000)});
+            text += `✔ <b>${s}</b> فعال</b><br>`;
+        }catch{
+            text += `✖ <b>${s}</b> قطع<br>`;
+        }
+    }
+    showResult(text);
+}
+
+/* ----------------------------------- */
+/* PING GRAPH                */
+/* ----------------------------------- */
+function setupChart() {
+    const ctx = document.getElementById('pingChart').getContext('2d');
+    pingChartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: Array(maxDataPoints).fill(''),
+            datasets: [{
+                label: 'پینگ (ms)',
+                data: Array(maxDataPoints).fill(0),
+                fill: false,
+                tension: 0.3,
+                borderWidth: 2,
+                pointRadius: 3,
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    min: 0,
+                    max: 500,
+                    title: { display: true, text: 'Latency (ms)' }
+                },
+                x: {
+                    display: false
+                }
+            },
+            plugins: {
+                legend: { display: false },
+                tooltip: { enabled: false }
+            },
+            animation: false
+        }
+    });
+    updateChartColors();
+}
+setupChart();
+
+
+function startPingGraph(){
+    if (pingInterval) {
+        clearInterval(pingInterval);
+        pingInterval = null;
+        document.getElementById('startGraphBtn').innerText = 'شروع نمودار';
+        return;
+    }
+
+    document.getElementById('startGraphBtn').innerText = 'توقف نمودار...';
+
+    pingInterval = setInterval(async ()=>{
+        const duration = await simulatePing("https://www.google.com/favicon.ico");
+
+        let pingValue = duration !== null ? duration : 500;
+
+        pingChartInstance.data.datasets[0].data.push(pingValue);
+
+        if (pingChartInstance.data.datasets[0].data.length > maxDataPoints) {
+            pingChartInstance.data.datasets[0].data.shift();
+        }
+
+        pingChartInstance.update('none');
+    }, pingDelay);
+}
+
+
+/* ----------------------------------- */
+/* LIGHT SPEED TEST            */
+/* ----------------------------------- */
+async function lightSpeedTest(){
+    const box = document.getElementById("speedResult");
+    box.style.display="block";
+    box.innerHTML="در حال تست... (دانلود 10 مگابایت)";
+
+    const testUrl = "https://speed.hetzner.de/10MB.bin";
+    const downloadSizeMB = 10;
+
+    const start = performance.now();
+
+    try{
+        const response = await fetch(testUrl);
+        const reader = response.body.getReader();
+        let totalReceived = 0;
+
+        while(true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+            totalReceived += value.length;
+        }
+
+        const duration = (performance.now() - start) / 1000;
+
+        const speedMbps = ((totalReceived / 1024 / 1024) * 8 / duration).toFixed(2);
+
+        box.innerHTML = `سرعت تقریبی دانلود: <b>${speedMbps} Mbps</b> <br> (حجم تست: ${downloadSizeMB} مگابایت در ${duration.toFixed(2)} ثانیه)`;
+
+    }catch(e){
+        box.innerHTML = "تست سرعت شکست خورد ✖ (خطا یا CORS)";
+    }
+}
+
+/* ----------------------------------- */
+/* PERSONAL SHORTCUTS            */
+/* ----------------------------------- */
+function loadShortcuts(){
+    const list = JSON.parse(localStorage.getItem("links") || "[]");
+    document.getElementById("myLinks").innerHTML =
+        // ساختار دکمه لینک شخصی با دکمه حذف
+        list.map(x=>`
+            <div style="display:flex; align-items:center; margin-bottom: 8px;">
+                <button class='btn' onclick="openLink('${x.url}')" style="flex-grow: 1; margin: 0;">${x.name}</button>
+                <button class='btn-sm btn-outline' style='width: 40px; margin-right: 8px; flex-shrink: 0;' onclick="removeShortcut('${x.name}')"><i class="fas fa-trash"></i></button>
+            </div>
+        `).join("");
+}
+loadShortcuts();
+
+function addShortcut(){
+    let name = document.getElementById("customName").value.trim();
+    let url = document.getElementById("customURL").value.trim();
+
+    if(!name || !url) {
+        alert("لطفاً نام و لینک را وارد کنید.");
+        return;
+    }
+
+    if(!url.startsWith('http')) url = 'https://' + url;
+
+    let list = JSON.parse(localStorage.getItem("links") || "[]");
+    list.push({name,url});
+    localStorage.setItem("links", JSON.stringify(list));
+
+    document.getElementById("customName").value = "";
+    document.getElementById("customURL").value = "https://";
+    loadShortcuts();
+}
+
+function removeShortcut(name) {
+    let list = JSON.parse(localStorage.getItem("links") || "[]");
+    list = list.filter(x => x.name !== name);
+    localStorage.setItem("links", JSON.stringify(list));
+    loadShortcuts();
+}
+
+/* ----------------------------------- */
+/* LITE MODE                */
+/* ----------------------------------- */
+function toggleLite(){
+    document.body.classList.toggle("lite");
+    localStorage.setItem("lite", document.body.classList.contains("lite"));
+}
+if(localStorage.getItem("lite") === "true"){
+    document.body.classList.add("lite");
+}
+</script>
+</body>
+</html>

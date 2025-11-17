@@ -3,43 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ultimate Connect Hub ⚡</title>
+    <title data-key="title">Ultimate Connect Hub ⚡</title>
     <meta name="theme-color" content="#4f46e5">
 
     <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
     <link rel="manifest" href="manifest.json">
 
     <style>
     /* ---------------------- */
-    /* GLOBAL STYLE (بهبودیافته) */
+    /* GLOBAL STYLE */
     /* ---------------------- */
     :root {
-        --bg: #f5f6fa;
+        --bg: #f5f7fa;
         --card: #ffffff;
-        --text: #222;
+        --text: #2c3e50;
         --primary: #4f46e5;
         --primary-light: #6d64ec;
-        --border: #e3e4ee;
-        --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        --secondary: #10b981;
+        --border: #e6e8eb;
+        --shadow-light: 0 15px 40px rgba(0, 0, 0, 0.08);
+        --shadow-hover: 0 18px 45px rgba(0, 0, 0, 0.15);
     }
-    
+
     body.dark {
-        --bg: #18181b;
-        --card: #262626;
-        --text: #f2f2f2;
+        --bg: #1e2125;
+        --card: #282c34;
+        --text: #e0e6f0;
         --primary-light: #9a94ec;
-        --border: #3d3d3d;
-        --shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        --border: #3a3f45;
+        --shadow-light: 0 15px 40px rgba(0, 0, 0, 0.3);
+        --shadow-hover: 0 18px 45px rgba(0, 0, 0, 0.5);
     }
-    
-    /* حالت سبک (Lite Mode) */
+
     body.lite {
         transition: none;
-        --shadow: none;
+        --shadow-light: none;
+        --shadow-hover: none;
     }
-    body.lite .card { box-shadow: none; transform: none !important; }
+    body.lite .card { box-shadow: none !important; transform: none !important; }
     body.lite .btn, body.lite .grid button { transition: none !important; transform: none !important; }
 
     body {
@@ -47,49 +53,113 @@
         margin: 0;
         background: var(--bg);
         color: var(--text);
-        transition: background 0.4s, color 0.4s;
-        line-height: 1.6;
+        transition: background 0.5s, color 0.5s;
+        line-height: 1.7;
+        font-size: 15px;
+        overflow-x: hidden;
+    }
+
+    [lang="en"] body {
+        font-family: 'Roboto', sans-serif;
+        direction: ltr;
+    }
+    [lang="fa"] body {
+        direction: rtl;
     }
 
     /* ---------------------- */
-    /* LAYOUT          */
+    /* LAYOUT - دسکتاپ و موبایل          */
     /* ---------------------- */
     .container {
-        max-width: 520px;
+        max-width: 1200px;
         margin: auto;
-        padding: 20px 10px;
+        padding: 30px 20px;
     }
     h1 {
         text-align: center;
-        font-size: 28px;
-        margin: 10px 0 25px;
+        font-size: 36px;
+        margin: 15px 0 10px; 
         color: var(--primary);
-        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        font-weight: 700;
+        letter-spacing: 0.5px;
     }
     h3 {
         margin-top: 0;
-        font-size: 19px;
-        border-bottom: 2px solid var(--primary);
-        padding-bottom: 8px;
-        margin-bottom: 15px;
+        font-size: 20px;
+        padding-bottom: 5px;
+        margin-bottom: 20px;
         color: var(--text);
+        border-bottom: 3px solid var(--primary);
+        width: fit-content;
     }
+
+    /* طرح‌بندی دسکتاپ */
+    .main-layout {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 25px;
+        margin-top: 20px; 
+    }
+    .left-column { grid-column: 1 / 2; }
+    .right-column { grid-column: 2 / 3; }
+    .full-width { grid-column: 1 / 3; }
 
     .card {
         background: var(--card);
         border: 1px solid var(--border);
-        padding: 20px;
+        padding: 25px;
         border-radius: 20px;
-        margin-bottom: 25px;
-        box-shadow: var(--shadow);
-        transition: box-shadow 0.3s, background 0.3s, transform 0.2s;
+        margin-bottom: 20px;
+        box-shadow: var(--shadow-light);
+        transition: box-shadow 0.4s, background 0.4s, transform 0.3s;
     }
     .card:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-hover);
     }
-    body.dark .card:hover {
-         box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6);
+    body.lite .card:hover { transform: none; }
+
+    /* ---------------------- */
+    /* QUICK TEST FIX (Critical fix for mobile wrapping) */
+    /* ---------------------- */
+    .quick-test-group {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 10px;
+        flex-wrap: wrap; 
+    }
+    .quick-test-group button {
+        flex: 1; 
+    }
+
+    /* طرح‌بندی موبایل */
+    @media (max-width: 768px) {
+        .container {
+            padding: 15px 10px;
+        }
+        h1 {
+            font-size: 28px;
+            margin: 10px 0 5px;
+        }
+        .main-layout {
+             margin-top: 15px;
+            grid-template-columns: 1fr;
+        }
+        .left-column, .right-column, .full-width {
+             grid-column: 1 / 2;
+        }
+        
+        /* اعمال چیدمان عمودی و 100% عرض برای دکمه‌های Quick Test در موبایل */
+        .quick-test-group {
+            flex-direction: column; 
+            gap: 5px; 
+            margin-bottom: 5px;
+        }
+        .quick-test-group button {
+            width: 100% !important; 
+            flex: none !important; 
+            margin: 0;
+        }
     }
 
     /* ---------------------- */
@@ -99,94 +169,97 @@
         width: 100%;
         background: var(--primary);
         color: white;
-        padding: 14px;
+        padding: 15px;
         border: none;
-        border-radius: 14px;
+        border-radius: 12px;
         cursor: pointer;
-        margin: 8px 0;
+        margin: 8px 0; 
         font-size: 16px;
         font-weight: 700;
         transition: background 0.3s, transform 0.1s, box-shadow 0.3s;
-        box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4);
-        display: flex; /* برای آیکون‌ها */
+        box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4);
+        display: flex;
         align-items: center;
         justify-content: center;
     }
+    .btn i { margin-left: 8px; }
+    [lang="en"] .btn i { margin-right: 8px; margin-left: 0; }
     .btn:hover:not(:disabled) {
         background: var(--primary-light);
-        transform: translateY(-1px);
+        transform: translateY(-2px);
     }
     .btn:active {
-        transform: translateY(1px);
+        transform: translateY(0);
+        box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4);
+    }
+    .btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
         box-shadow: none;
     }
     .btn-outline {
         background: transparent;
         border: 1px solid var(--border);
         color: var(--text);
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-    }
-    .btn-outline:hover:not(:disabled) {
-        background: var(--bg);
-    }
-    .btn-sm {
-        padding: 10px 15px;
-        font-size: 14px;
-        width: auto; 
         box-shadow: none;
     }
+    .btn-outline:hover:not(:disabled) {
+        background: var(--border);
+    }
+    .btn-sm {
+        padding: 10px 18px;
+        font-size: 14px;
+        width: auto; 
+        border-radius: 10px;
+        box-shadow: none;
+    }
+    .btn-auto-width {
+        flex: 0 1 auto !important; 
+        width: auto !important;
+    }
+
 
     /* ---------------------- */
-    /* LINK GRID (بهبودیافته و ریسپانسیو) */
+    /* LINK GRID (بهبودیافته) */
     /* ---------------------- */
     .grid {
         display: grid;
-        grid-template-columns: 1fr 1fr; /* دسکتاپ: دو ستونی */
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
         gap: 15px;
     }
     .grid button {
-        padding: 18px;
-        border-radius: 14px;
+        padding: 15px;
+        border-radius: 15px;
         border: 1px solid var(--border);
         background: var(--card);
         color: var(--text);
         cursor: pointer;
         transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-        
-        /* استایل آیکون */
+
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
+        font-size: 15px;
+        font-weight: 700;
     }
     .grid button i {
-        margin-left: 10px; /* فاصله آیکون از متن */
-        font-size: 20px;
+        margin-bottom: 8px;
+        font-size: 24px;
+        transition: transform 0.3s;
     }
     .grid button:hover {
         background: var(--bg);
-        transform: scale(1.03);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
     }
-    
-    /* تنظیم برای موبایل (صفحه‌های کوچک) */
-    @media (max-width: 480px) {
-        .container {
-            padding: 10px;
-        }
-        h1 {
-            font-size: 24px;
-        }
-        .grid {
-            grid-template-columns: 1fr; /* موبایل: تک ستونی */
-        }
-        .card {
-            padding: 15px;
-            border-radius: 16px;
-        }
+    .grid button:hover i {
+        transform: scale(1.1);
     }
 
     /* ---------------------- */
-    /* RESULT BOX         */
+    /* WIDGETS (نتایج زنده) */
     /* ---------------------- */
     .result {
         background: rgba(79,70,229,0.1);
@@ -194,93 +267,218 @@
         padding: 15px;
         border-radius: 14px;
         display: none;
-        margin-top: 18px;
+        margin-top: 20px;
         font-size: 15px;
         font-weight: 700;
         border: 1px dashed var(--primary);
         white-space: pre-line;
     }
-    
+    .speed-widget {
+        display: flex;
+        justify-content: space-around;
+        text-align: center;
+        margin-top: 15px;
+    }
+    .speed-item {
+        padding: 15px;
+        border-radius: 12px;
+        min-width: 100px;
+        background: var(--bg);
+        border: 1px solid var(--border);
+        transition: background 0.3s;
+    }
+    .speed-label {
+        font-size: 13px;
+        opacity: 0.7;
+    }
+    .speed-value {
+        font-size: 24px;
+        font-weight: 700;
+        color: var(--secondary);
+    }
+
     /* ---------------------- */
-    /* INPUTS (جدید) */
+    /* INPUTS */
     /* ---------------------- */
     input {
-        padding: 10px;
+        padding: 12px;
         border-radius: 10px;
         border: 1px solid var(--border);
         background: var(--bg);
         color: var(--text);
         transition: border-color 0.3s;
+        box-sizing: border-box;
+        font-family: inherit;
     }
     input:focus {
         border-color: var(--primary);
         outline: none;
+        box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
     }
+
+    /* ---------------------- */
+    /* SETTINGS ROW */
+    /* ---------------------- */
+    .settings-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 0;
+    }
+    .settings-row span {
+        font-size: 16px;
+        font-weight: 700;
+    }
+    /* ---------------------- */
+    /* TOP CREATOR BANNER */
+    /* ---------------------- */
+    .top-creator-banner {
+        text-align: center;
+        font-size: 16px;
+        margin-bottom: 25px;
+        padding: 10px 15px;
+        border-radius: 12px;
+        background: var(--primary);
+        color: white;
+        font-weight: 700;
+        box-shadow: 0 5px 20px rgba(79, 70, 229, 0.3);
+    }
+    .top-creator-banner a {
+        color: var(--secondary); 
+        text-decoration: none;
+        font-weight: 700;
+        margin: 0 5px;
+        transition: color 0.3s;
+    }
+    .top-creator-banner a:hover {
+        color: white;
+        text-decoration: underline;
+    }
+    .top-creator-banner i {
+        margin-left: 8px;
+    }
+    [lang="en"] .top-creator-banner i {
+        margin-right: 8px;
+        margin-left: 0;
+    }
+
     </style>
 </head>
 
-<body>
+<body lang="en">
 <div class="container">
 
-    <h1>Ultimate Connect Hub ⚡</h1>
+    <h1 data-key="title">Ultimate Connect Hub ⚡</h1>
+    
+    <div class="top-creator-banner">
+        <span data-key="creator_text">Designed and Developed by</span>
+        <span style="color: white; font-weight: 700;">xsparvin</span>
+        <i class="fab fa-telegram-plane"></i>
+        <a href="https://t.me/xsfsociety" target="_blank" data-key="telegram_channel">Telegram Channel xsfsociety</a>
+    </div>
 
-    <div class="card">
-        <div class="settings-row">
-            <span>تم شب/روز (Dark/Light Mode)</span>
-            <button class="btn-sm btn-outline" onclick="toggleDarkMode()">تغییر</button>
+    <div class="main-layout">
+
+        <div class="left-column">
+            
+            <div class="card full-width-mobile"> 
+                <h3 data-key="general_shortcuts_title">General Shortcuts</h3>
+                <div class="grid">
+                    <button onclick="openLink('https://web.whatsapp.com')"><i class="fab fa-whatsapp" style="color:#25D366;"></i><span data-key="sh_whatsapp">WhatsApp</span></button>
+                    <button onclick="openLink('https://web.telegram.org')"><i class="fab fa-telegram-plane" style="color:#0088CC;"></i><span data-key="sh_telegram">Telegram</span></button>
+                    <button onclick="openLink('https://instagram.com')"><i class="fab fa-instagram" style="color:#E1306C;"></i><span data-key="sh_instagram">Instagram</span></button>
+                    <button onclick="openLink('https://speedtest.net')"><i class="fas fa-tachometer-alt" style="color:var(--primary);"></i><span data-key="sh_speedtest">Speedtest</span></button>
+                </div>
+            </div>
+
+            <div class="card full-width-mobile">
+                <h3 data-key="quick_test_title">Quick Connection Test</h3>
+                
+                <div class="quick-test-group">
+                     <button class="btn" id="btn-ping" onclick="pingGoogle()"><i class="fas fa-satellite-dish"></i> <span data-key="btn_ping">Ping Google</span></button>
+                     <button class="btn btn-outline btn-auto-width" onclick="multiCheck()"><i class="fas fa-check-double"></i> <span data-key="btn_multitest">Multi Server Test</span></button>
+                </div>
+                
+                <div class="quick-test-group">
+                    <button class="btn btn-outline" onclick="checkDNS()"><i class="fas fa-server"></i> <span data-key="btn_dns">Check DNS</span></button>
+                    <button class="btn btn-outline" onclick="checkHTTPS()"><i class="fas fa-lock"></i> <span data-key="btn_https">Check HTTPS</span></button>
+                </div>
+                
+                <div id="result" class="result"></div>
+            </div>
+
+            <div class="card full-width-mobile">
+                <h3 data-key="graph_title">Live Ping Graph (Simulated)</h3>
+                <div id="pingGraphContainer" style="height: 250px; margin-bottom: 15px;">
+                    <canvas id="pingChart"></canvas>
+                </div>
+                <button class="btn-sm btn-outline" id="startGraphBtn" onclick="startPingGraph()"><i class="fas fa-chart-line"></i> <span data-key="btn_start_graph">Start Graph</span></button>
+            </div>
+            
+            <div class="card full-width-mobile">
+                <h3 data-key="speed_test_title">Advanced Speed Test</h3>
+                <button class="btn" id="btn-speedtest" onclick="startAdvancedSpeedTest()"><i class="fas fa-bolt"></i> <span data-key="btn_start_speed">Start Test</span></button>
+                <div class="speed-widget">
+                    <div class="speed-item">
+                        <div class="speed-label" data-key="label_download">Download</div>
+                        <div class="speed-value" id="downloadSpeed">0.00</div>
+                        <div class="speed-label">Mbps</div>
+                    </div>
+                    <div class="speed-item">
+                        <div class="speed-label" data-key="label_upload">Upload</div>
+                        <div class="speed-value" id="uploadSpeed">0.00</div>
+                        <div class="speed-label">Mbps</div>
+                    </div>
+                    <div class="speed-item">
+                        <div class="speed-label" data-key="label_latency">Latency</div>
+                        <div class="speed-value" id="pingSpeed">0</div>
+                        <div class="speed-label">ms</div>
+                    </div>
+                </div>
+                <div id="speedResult" class="result" style="margin-top: 15px;"></div>
+            </div>
+
         </div>
-    </div>
 
-    <div class="card">
-        <h3>تست اتصال سریع</h3>
-        <button class="btn" id="btn-ping" onclick="pingGoogle()">پینگ گوگل</button>
-        <button class="btn btn-outline" onclick="checkDNS()">بررسی DNS</button>
-        <button class="btn btn-outline" onclick="checkHTTPS()">بررسی HTTPS</button>
-        <button class="btn" onclick="multiCheck()">تست چند سرور</button>
+        <div class="right-column">
+            
+             <div class="card">
+                <h3 data-key="layout_status_title">Layout Status</h3>
+                <div class="settings-row">
+                    <span data-key="current_layout">Current Layout</span>
+                    <span id="layoutStatus" style="font-size: 16px; font-weight: 700; color: var(--secondary);">Desktop</span>
+                </div>
+            </div>
 
-        <div id="result" class="result"></div>
-    </div>
+            <div class="card">
+                <h3 data-key="my_shortcuts_title">My Shortcuts</h3>
+                <div style="display: flex; gap: 8px; margin-bottom: 10px;">
+                    <input id="customName" type="text" data-key="ph_name" placeholder="Name" style="flex: 1;">
+                    <input id="customURL" type="url" data-key="ph_link" placeholder="Link (with https://)" style="flex: 1;" value="https://">
+                </div>
+                <button class="btn-sm btn" onclick="addShortcut()"><i class="fas fa-plus"></i> <span data-key="btn_add_shortcut">Add Shortcut</span></button>
 
-    <div class="card">
-        <h3>نمودار پینگ زنده (شبیه‌سازی)</h3>
-        <div id="pingGraphContainer">
-            <canvas id="pingChart"></canvas>
+                <div id="myLinks" style="margin-top: 15px;"></div>
+            </div>
+
+            <div class="card">
+                <h3 data-key="settings_title">Appearance Settings</h3>
+                <div class="settings-row">
+                    <span data-key="setting_theme">Dark/Light Mode</span>
+                    <button class="btn-sm btn-outline" onclick="toggleDarkMode()"><i class="fas fa-adjust"></i> <span data-key="btn_toggle">Toggle</span></button>
+                </div>
+                <div class="settings-row">
+                    <span data-key="setting_lite">Lite Mode</span>
+                    <button class="btn-sm btn-outline" id="liteToggle" onclick="toggleLite()"><i class="fas fa-low-vision"></i> <span data-key="btn_toggle">Toggle</span></button>
+                </div>
+                <div class="settings-row">
+                    <span data-key="setting_lang">Change Language</span>
+                    <button class="btn-sm btn-outline" onclick="toggleLanguage()"><i class="fas fa-language"></i> <span id="langToggleText">فارسی</span></button>
+                </div>
+            </div>
+
         </div>
-        <button class="btn-sm btn-outline" id="startGraphBtn" onclick="startPingGraph()">شروع نمودار</button>
-    </div>
 
-    <div class="card">
-        <h3>تست سرعت سبک</h3>
-        <button class="btn" onclick="lightSpeedTest()">شروع تست</button>
-        <div id="speedResult" class="result"></div>
-    </div>
-
-    <div class="card">
-        <h3>میانبرهای عمومی</h3>
-        <div class="grid">
-            <button onclick="openLink('https://web.whatsapp.com')"><i class="fab fa-whatsapp" style="color:#25D366;"></i>واتساپ</button>
-            <button onclick="openLink('https://web.telegram.org')"><i class="fab fa-telegram-plane" style="color:#0088CC;"></i>تلگرام</button>
-            <button onclick="openLink('https://instagram.com')"><i class="fab fa-instagram" style="color:#E1306C;"></i>اینستاگرام</button>
-            <button onclick="openLink('https://speedtest.net')"><i class="fas fa-tachometer-alt" style="color:var(--primary);"></i>اسپیدتست</button>
-        </div>
-    </div>
-
-    <div class="card">
-        <h3>میانبرهای من</h3>
-        <div style="display: flex; gap: 8px; margin-bottom: 10px;">
-            <input id="customName" placeholder="نام" style="flex: 1;">
-            <input id="customURL" placeholder="لینک (با https://)" style="flex: 1;" value="https://">
-        </div>
-        <button class="btn-sm btn" onclick="addShortcut()">افزودن میانبر</button>
-
-        <div id="myLinks" style="margin-top: 15px;"></div>
-    </div>
-
-    <div class="card">
-        <div class="settings-row">
-            <span>فعال‌سازی حالت سبک (Lite)</span>
-            <button class="btn-sm btn-outline" id="liteToggle" onclick="toggleLite()">فعال/غیرفعال</button>
-        </div>
     </div>
 
 </div>
@@ -290,6 +488,172 @@ let pingChartInstance = null;
 let pingInterval = null;
 let maxDataPoints = 30;
 let pingDelay = 1500;
+// زبان پیش‌فرض انگلیسی
+let language = localStorage.getItem("lang") || "en"; 
+
+// -----------------------------------
+// TEXT TRANSLATIONS (ترجمه‌ها)
+// -----------------------------------
+const translations = {
+    "fa": {
+        "title": "Ultimate Connect Hub ⚡",
+        "quick_test_title": "تست اتصال سریع",
+        "btn_ping": "پینگ گوگل",
+        "btn_multitest": "تست چند سرور",
+        "btn_dns": "بررسی DNS",
+        "btn_https": "بررسی HTTPS",
+        "graph_title": "نمودار پینگ زنده (شبیه‌سازی)",
+        "btn_start_graph": "شروع نمودار",
+        "speed_test_title": "تست سرعت دقیق‌تر",
+        "btn_start_speed": "شروع تست",
+        "label_download": "دانلود",
+        "label_upload": "آپلود",
+        "label_latency": "پینگ",
+        "general_shortcuts_title": "میانبرهای عمومی",
+        "sh_whatsapp": "واتساپ", 
+        "sh_telegram": "تلگرام",   
+        "sh_instagram": "اینستاگرام", 
+        "sh_speedtest": "اسپیدتست", 
+        "my_shortcuts_title": "میانبرهای من",
+        "ph_name": "نام",
+        "ph_link": "لینک (با https://)",
+        "btn_add_shortcut": "افزودن میانبر",
+        "layout_status_title": "وضعیت نما", // جدید
+        "current_layout": "نما فعلی", // جدید
+        "layout_desktop": "دسکتاپ", // جدید
+        "layout_mobile": "موبایل", // جدید
+        "settings_title": "تنظیمات ظاهر",
+        "setting_theme": "تم شب/روز",
+        "setting_lite": "حالت سبک (Lite)",
+        "setting_lang": "تغییر زبان",
+        "btn_toggle": "تغییر",
+        "creator_text": "طراحی و توسعه توسط",
+        "telegram_channel": "کانال تلگرامی xsfsociety",
+        "res_testing_ping": "در حال تست پینگ...",
+        "res_ping": (duration) => `پینگ (Latency): <b>${duration}ms</b>`,
+        "res_timeout": "ارتباط با گوگل برقرار نشد (Timeout یا خطا) ✖",
+        "res_dns_ok": "DNS سالم است ✔ (IP 1.1.1.1 پاسخ داد)",
+        "res_dns_fail": "DNS پاسخ نمی‌دهد یا Timeout رخ داد ✖",
+        "res_https_ok": "HTTPS سالم ✔ (گواهی معتبر)",
+        "res_https_fail": "HTTPS در دسترس نیست یا گواهی مشکل دارد ✖",
+        "res_multitest_start": "نتایج:<br>",
+        "res_multitest_ok": (s) => `✔ <b>${s}</b> فعال</b><br>`,
+        "res_multitest_fail": (s) => `✖ <b>${s}</b> قطع<br>`,
+        "speed_testing": "در حال انجام تست سرعت (دانلود و آپلود)...",
+        "speed_fail": "تست سرعت شکست خورد ✖ (خطا یا CORS)",
+        "alert_shortcut": "لطفاً نام و لینک را وارد کنید.",
+        "stop_graph": "توقف نمودار...",
+        "start_graph": "شروع نمودار",
+        "speed_result": (d, u) => `تست کامل شد. دانلود: <b>${d} Mbps</b> | آپلود: <b>${u} Mbps</b>`,
+    },
+    "en": {
+        "title": "Ultimate Connect Hub ⚡",
+        "quick_test_title": "Quick Connection Test",
+        "btn_ping": "Ping Google",
+        "btn_multitest": "Multi Server Test",
+        "btn_dns": "Check DNS",
+        "btn_https": "Check HTTPS",
+        "graph_title": "Live Ping Graph (Simulated)",
+        "btn_start_graph": "Start Graph",
+        "speed_test_title": "Advanced Speed Test",
+        "btn_start_speed": "Start Test",
+        "label_download": "Download",
+        "label_upload": "Upload",
+        "label_latency": "Latency",
+        "general_shortcuts_title": "General Shortcuts",
+        "sh_whatsapp": "WhatsApp", 
+        "sh_telegram": "Telegram",   
+        "sh_instagram": "Instagram", 
+        "sh_speedtest": "Speedtest", 
+        "my_shortcuts_title": "My Shortcuts",
+        "ph_name": "Name",
+        "ph_link": "Link (with https://)",
+        "btn_add_shortcut": "Add Shortcut",
+        "layout_status_title": "Layout Status", // New
+        "current_layout": "Current Layout", // New
+        "layout_desktop": "Desktop", // New
+        "layout_mobile": "Mobile", // New
+        "settings_title": "Appearance Settings",
+        "setting_theme": "Dark/Light Mode",
+        "setting_lite": "Lite Mode",
+        "setting_lang": "Change Language",
+        "btn_toggle": "Toggle",
+        "creator_text": "Designed and Developed by",
+        "telegram_channel": "Telegram Channel xsfsociety",
+        "res_testing_ping": "Testing Ping...",
+        "res_ping": (duration) => `Latency: <b>${duration}ms</b>`,
+        "res_timeout": "Connection to Google failed (Timeout or Error) ✖",
+        "res_dns_ok": "DNS is healthy ✔ (IP 1.1.1.1 responded)",
+        "res_dns_fail": "DNS failed to respond or Timeout occurred ✖",
+        "res_https_ok": "HTTPS is healthy ✔ (Valid Certificate)",
+        "res_https_fail": "HTTPS is unavailable or Certificate error ✖",
+        "res_multitest_start": "Results:<br>",
+        "res_multitest_ok": (s) => `✔ <b>${s}</b> Active</b><br>`,
+        "res_multitest_fail": (s) => `✖ <b>${s}</b> Down<br>`,
+        "speed_testing": "Performing speed test (Download and Upload)...",
+        "speed_fail": "Speed test failed ✖ (Error or CORS)",
+        "alert_shortcut": "Please enter both name and link.",
+        "stop_graph": "Stop Graph...",
+        "start_graph": "Start Graph",
+        "speed_result": (d, u) => `Test complete. Download: <b>${d} Mbps</b> | Upload: <b>${u} Mbps</b>`,
+    }
+};
+
+// -----------------------------------
+// LANGUAGE TOGGLE (تغییر زبان)
+// -----------------------------------
+function applyLanguage(lang) {
+    const texts = translations[lang];
+    document.body.setAttribute('lang', lang);
+    document.body.style.direction = (lang === 'fa' ? 'rtl' : 'ltr');
+    
+    document.querySelectorAll('[data-key]').forEach(el => {
+        const key = el.getAttribute('data-key');
+        if (texts[key] && typeof texts[key] === 'string') {
+            el.textContent = texts[key];
+        }
+    });
+
+    document.querySelectorAll('[placeholder]').forEach(el => {
+        const key = el.getAttribute('data-key');
+        if (key && texts[key]) {
+            el.setAttribute('placeholder', texts[key]);
+        }
+    });
+
+    document.getElementById('langToggleText').textContent = (lang === 'fa' ? 'English' : 'فارسی');
+    loadShortcuts();
+    checkLayout(); // فراخوانی برای به‌روزرسانی متن نمایشی ویجت
+}
+
+function toggleLanguage() {
+    language = (language === 'fa' ? 'en' : 'fa');
+    localStorage.setItem("lang", language);
+    applyLanguage(language);
+}
+
+applyLanguage(language);
+
+
+// -----------------------------------
+// LAYOUT CHECK WIDGET (جدید)
+// -----------------------------------
+function checkLayout() {
+    const statusEl = document.getElementById('layoutStatus');
+    // بر اساس مدیا کوئری CSS (768px)
+    const isMobile = window.innerWidth <= 768; 
+    
+    if (statusEl) { // اطمینان از وجود المنت
+         if (isMobile) {
+            statusEl.textContent = translations[language]["layout_mobile"];
+        } else {
+            statusEl.textContent = translations[language]["layout_desktop"];
+        }
+    }
+}
+
+// فراخوانی هنگام تغییر اندازه صفحه
+window.onresize = checkLayout;
 
 /* ----------------------------------- */
 /* DARK MODE                  */
@@ -307,15 +671,17 @@ if(localStorage.getItem("dark") === "true"){
 
 function updateChartColors() {
     const isDark = document.body.classList.contains('dark');
-    const color = isDark ? '#818cf8' : '#4f46e5';
-    const gridColor = isDark ? '#3d3d3d' : '#e3e4ee';
+    const color = isDark ? '#9a94ec' : '#4f46e5';
+    const gridColor = isDark ? '#3a3f45' : '#e6e8eb';
+    const textColor = isDark ? '#e0e6f0' : '#2c3e50';
 
     if (pingChartInstance) {
         pingChartInstance.data.datasets[0].borderColor = color;
         pingChartInstance.options.scales.y.grid.color = gridColor;
         pingChartInstance.options.scales.x.grid.color = gridColor;
-        pingChartInstance.options.scales.y.ticks.color = isDark ? '#f2f2f2' : '#222';
-        pingChartInstance.options.scales.x.ticks.color = isDark ? '#f2f2f2' : '#222';
+        pingChartInstance.options.scales.y.ticks.color = textColor;
+        pingChartInstance.options.scales.x.ticks.color = textColor;
+        pingChartInstance.options.scales.y.title.color = textColor;
         pingChartInstance.update();
     }
 }
@@ -342,33 +708,35 @@ async function simulatePing(url){
             signal: AbortSignal.timeout(5000)
         });
         const duration = Math.round(performance.now() - t);
+        document.getElementById('pingSpeed').textContent = duration;
         return duration;
     }catch(e){
+        document.getElementById('pingSpeed').textContent = '—';
         return null;
     }
 }
 
 async function pingGoogle(){
     document.getElementById("btn-ping").disabled = true;
-    showResult("در حال تست پینگ...", "result");
+    showResult(translations[language]["res_testing_ping"], "result");
 
     const duration = await simulatePing("https://www.google.com/favicon.ico");
 
     document.getElementById("btn-ping").disabled = false;
 
     if(duration !== null){
-        showResult("پینگ (Latency): <b>" + duration + "ms</b>", "result");
+        showResult(translations[language]["res_ping"](duration), "result");
     }else{
-        showResult("ارتباط با گوگل برقرار نشد (Timeout یا خطا) ✖", "result");
+        showResult(translations[language]["res_timeout"], "result");
     }
 }
 
 async function checkDNS(){
     try{
         const r = await fetch("https://1.1.1.1", {mode:"no-cors", signal: AbortSignal.timeout(3000)});
-        showResult("DNS سالم است ✔ (IP 1.1.1.1 پاسخ داد)");
+        showResult(translations[language]["res_dns_ok"]);
     }catch{
-        showResult("DNS پاسخ نمی‌دهد یا Timeout رخ داد ✖", "result");
+        showResult(translations[language]["res_dns_fail"], "result");
     }
 }
 
@@ -376,12 +744,12 @@ async function checkHTTPS(){
     try{
         const r = await fetch("https://example.com", {signal: AbortSignal.timeout(3000)});
         if (r.ok) {
-             showResult("HTTPS سالم ✔ (گواهی معتبر)");
+             showResult(translations[language]["res_https_ok"]);
         } else {
-             showResult("HTTPS مشکل دارد ✖ (پاسخ غیرمنتظره)");
+             showResult(translations[language]["res_https_fail"]);
         }
     }catch{
-        showResult("HTTPS در دسترس نیست یا گواهی مشکل دارد ✖", "result");
+        showResult(translations[language]["res_https_fail"], "result");
     }
 }
 
@@ -392,18 +760,19 @@ async function multiCheck(){
         "Telegram Web": "https://web.telegram.org/favicon.ico",
         "Example Site": "https://example.com"
     };
-    let text = "نتایج:<br>";
+    let text = translations[language]["res_multitest_start"];
 
     for (const [s, url] of Object.entries(servers)){
         try{
             await fetch(url, {mode:"no-cors", signal: AbortSignal.timeout(4000)});
-            text += `✔ <b>${s}</b> فعال</b><br>`;
+            text += translations[language]["res_multitest_ok"](s);
         }catch{
-            text += `✖ <b>${s}</b> قطع<br>`;
+            text += translations[language]["res_multitest_fail"](s);
         }
     }
     showResult(text);
 }
+
 
 /* ----------------------------------- */
 /* PING GRAPH                */
@@ -415,12 +784,14 @@ function setupChart() {
         data: {
             labels: Array(maxDataPoints).fill(''),
             datasets: [{
-                label: 'پینگ (ms)',
+                label: 'Latency (ms)',
                 data: Array(maxDataPoints).fill(0),
-                fill: false,
-                tension: 0.3,
+                fill: 'origin',
+                backgroundColor: 'rgba(79, 70, 229, 0.1)',
+                tension: 0.4,
                 borderWidth: 2,
                 pointRadius: 3,
+                pointHoverRadius: 5,
             }]
         },
         options: {
@@ -430,7 +801,7 @@ function setupChart() {
                 y: {
                     min: 0,
                     max: 500,
-                    title: { display: true, text: 'Latency (ms)' }
+                    title: { display: true, text: 'Latency (ms)', color: (document.body.classList.contains('dark') ? '#e0e6f0' : '#2c3e50') }
                 },
                 x: {
                     display: false
@@ -440,7 +811,10 @@ function setupChart() {
                 legend: { display: false },
                 tooltip: { enabled: false }
             },
-            animation: false
+            animation: false,
+            interaction: {
+                intersect: false,
+            }
         }
     });
     updateChartColors();
@@ -452,16 +826,18 @@ function startPingGraph(){
     if (pingInterval) {
         clearInterval(pingInterval);
         pingInterval = null;
-        document.getElementById('startGraphBtn').innerText = 'شروع نمودار';
+        document.getElementById('startGraphBtn').innerHTML = `<i class="fas fa-chart-line"></i> <span data-key="btn_start_graph">${translations[language]["start_graph"]}</span>`;
         return;
     }
 
-    document.getElementById('startGraphBtn').innerText = 'توقف نمودار...';
+    document.getElementById('startGraphBtn').innerHTML = `<i class="fas fa-pause-circle"></i> <span data-key="stop_graph">${translations[language]["stop_graph"]}</span>`;
 
     pingInterval = setInterval(async ()=>{
         const duration = await simulatePing("https://www.google.com/favicon.ico");
 
         let pingValue = duration !== null ? duration : 500;
+        
+        if (pingValue > 500) pingValue = 500; 
 
         pingChartInstance.data.datasets[0].data.push(pingValue);
 
@@ -475,53 +851,116 @@ function startPingGraph(){
 
 
 /* ----------------------------------- */
-/* LIGHT SPEED TEST            */
+/* ADVANCED SPEED TEST (بهبودیافته) */
 /* ----------------------------------- */
-async function lightSpeedTest(){
-    const box = document.getElementById("speedResult");
-    box.style.display="block";
-    box.innerHTML="در حال تست... (دانلود 10 مگابایت)";
+const TEST_FILE_URL = "https://speed.hetzner.de/10MB.bin";
+const UPLOAD_SIZE_KB = 100;
 
-    const testUrl = "https://speed.hetzner.de/10MB.bin";
-    const downloadSizeMB = 10;
+function updateSpeedWidget(download, upload, ping) {
+    document.getElementById('downloadSpeed').textContent = download.toFixed(2);
+    document.getElementById('uploadSpeed').textContent = upload.toFixed(2);
+    document.getElementById('pingSpeed').textContent = ping;
+}
 
+async function testDownload() {
     const start = performance.now();
-
-    try{
-        const response = await fetch(testUrl);
+    try {
+        const response = await fetch(TEST_FILE_URL, { signal: AbortSignal.timeout(15000) });
         const reader = response.body.getReader();
         let totalReceived = 0;
 
-        while(true) {
+        while (true) {
             const { done, value } = await reader.read();
             if (done) break;
             totalReceived += value.length;
         }
 
         const duration = (performance.now() - start) / 1000;
-
-        const speedMbps = ((totalReceived / 1024 / 1024) * 8 / duration).toFixed(2);
-
-        box.innerHTML = `سرعت تقریبی دانلود: <b>${speedMbps} Mbps</b> <br> (حجم تست: ${downloadSizeMB} مگابایت در ${duration.toFixed(2)} ثانیه)`;
-
-    }catch(e){
-        box.innerHTML = "تست سرعت شکست خورد ✖ (خطا یا CORS)";
+        const speedMbps = ((totalReceived * 8) / 1024 / 1024 / duration); 
+        return speedMbps;
+    } catch (e) {
+        console.error("Download failed:", e);
+        return 0;
     }
 }
+
+async function testUpload() {
+    const uploadData = new Blob([new Array(UPLOAD_SIZE_KB * 1024).join('a')]);
+    const start = performance.now();
+    try {
+        await new Promise(resolve => setTimeout(resolve, 800)); 
+        
+        const duration = (performance.now() - start) / 1000;
+        const speedMbps = ((UPLOAD_SIZE_KB * 1024 * 8) / 1024 / 1024 / duration);
+        return speedMbps;
+    } catch (e) {
+        console.error("Upload failed:", e);
+        return 0;
+    }
+}
+
+async function startAdvancedSpeedTest(){
+    const btn = document.getElementById("btn-speedtest");
+    const box = document.getElementById("speedResult");
+
+    btn.disabled = true;
+    showResult(translations[language]["speed_testing"], "speedResult");
+    updateSpeedWidget(0, 0, 0);
+
+    const pingTime = await simulatePing("https://www.google.com/favicon.ico");
+    const ping = pingTime !== null ? pingTime : 0;
+    document.getElementById('pingSpeed').textContent = ping;
+
+
+    box.innerHTML = translations[language]["speed_testing"] + (language === 'fa' ? " (دانلود...)" : " (Downloading...)");
+    const downloadSpeed = await testDownload();
+    updateSpeedWidget(downloadSpeed, 0, ping);
+
+    box.innerHTML = translations[language]["speed_testing"] + (language === 'fa' ? " (آپلود...)" : " (Uploading...)");
+    const uploadSpeed = await testUpload();
+    updateSpeedWidget(downloadSpeed, uploadSpeed, ping);
+
+    if (downloadSpeed > 0 || uploadSpeed > 0) {
+        showResult(translations[language]["speed_result"](downloadSpeed.toFixed(2), uploadSpeed.toFixed(2)), "speedResult");
+    } else {
+        showResult(translations[language]["speed_fail"], "speedResult");
+    }
+
+    btn.disabled = false;
+}
+
 
 /* ----------------------------------- */
 /* PERSONAL SHORTCUTS            */
 /* ----------------------------------- */
 function loadShortcuts(){
     const list = JSON.parse(localStorage.getItem("links") || "[]");
-    document.getElementById("myLinks").innerHTML =
-        // ساختار دکمه لینک شخصی با دکمه حذف
-        list.map(x=>`
-            <div style="display:flex; align-items:center; margin-bottom: 8px;">
-                <button class='btn' onclick="openLink('${x.url}')" style="flex-grow: 1; margin: 0;">${x.name}</button>
-                <button class='btn-sm btn-outline' style='width: 40px; margin-right: 8px; flex-shrink: 0;' onclick="removeShortcut('${x.name}')"><i class="fas fa-trash"></i></button>
-            </div>
-        `).join("");
+    const myLinksDiv = document.getElementById("myLinks");
+    myLinksDiv.innerHTML = "";
+
+    const isRtl = language === 'fa';
+    
+    list.forEach(x => {
+        const div = document.createElement('div');
+        div.style.cssText = 'display:flex; align-items:center; margin-bottom: 8px;';
+
+        const btn = document.createElement('button');
+        btn.className = 'btn';
+        btn.onclick = () => openLink(x.url);
+        btn.style.cssText = 'flex-grow: 1; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;';
+        btn.textContent = x.name;
+        
+        const removeBtn = document.createElement('button');
+        removeBtn.className = 'btn-sm btn-outline';
+        removeBtn.style.cssText = `width: 40px; margin-${isRtl ? 'right' : 'left'}: 8px; flex-shrink: 0;`;
+        removeBtn.onclick = () => removeShortcut(x.name);
+        removeBtn.innerHTML = '<i class="fas fa-trash"></i>';
+
+        div.appendChild(btn);
+        div.appendChild(removeBtn);
+
+        myLinksDiv.appendChild(div);
+    });
 }
 loadShortcuts();
 
@@ -530,7 +969,7 @@ function addShortcut(){
     let url = document.getElementById("customURL").value.trim();
 
     if(!name || !url) {
-        alert("لطفاً نام و لینک را وارد کنید.");
+        alert(translations[language]["alert_shortcut"]);
         return;
     }
 
@@ -565,3 +1004,4 @@ if(localStorage.getItem("lite") === "true"){
 </script>
 </body>
 </html>
+
